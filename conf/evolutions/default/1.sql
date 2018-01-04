@@ -35,7 +35,7 @@ CREATE TABLE recipe_ingredients (
     id              bigint auto_increment primary key,
     recipe          bigint,
     ingredient      bigint,
-    quantity        double
+    quantity        varchar(40)
 )
 
 

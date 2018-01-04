@@ -3,13 +3,8 @@ package models
 import javax.inject.Inject
 
 import play.api.db.slick.DatabaseConfigProvider
-import slick.{dbio, lifted}
-import slick.dbio.Effect.Read
 import slick.jdbc.JdbcProfile
-import slick.lifted.TableQuery
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import slick.lifted
 
 case class Recipe(id: Long, name: String, description: String, instructions: String, notes: String)
 
@@ -33,7 +28,7 @@ class RecipeRepo @Inject()(protected val dbConfigProvider: DatabaseConfigProvide
     def ? = (id.?, name.?, description.?, instructions.?, notes.?).shaped.<>(
       {
         r =>
-          import r._;
+          import r._
           _1.map(_ => Recipe.tupled((_1.get, _2.get, _3.get, _4.get, _5.get)))
       },
       (_: Any) => throw new Exception("Inserting into ? projection not supported.")
