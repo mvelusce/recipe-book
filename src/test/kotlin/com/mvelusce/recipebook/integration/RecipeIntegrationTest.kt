@@ -31,5 +31,20 @@ class RecipeIntegrationTest {
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$", hasSize<Any>(2)))
                 .andExpect(jsonPath("$[0].id", `is`(1)))
+                .andExpect(jsonPath("$[0].name", `is`("burrito")))
+                .andExpect(jsonPath("$[1].id", `is`(2)))
+                .andExpect(jsonPath("$[1].name", `is`("taco")))
+    }
+
+    @Test
+    fun getRecipeById() {
+        mockMvc
+                .perform(get("/api/v1/recipes/1"))
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("$.id", `is`(1)))
+                .andExpect(jsonPath("$.name", `is`("burrito")))
+                .andExpect(jsonPath("$.description", `is`("mouth-watering mexican delight")))
+                .andExpect(jsonPath("$.instructions", `is`("make burritos")))
+                .andExpect(jsonPath("$.notes", `is`("it is delicious")))
     }
 }
