@@ -15,11 +15,23 @@ import scala.concurrent.duration.Duration
 
 class ModelScalaTestSpec extends PlaySpec with GuiceOneAppPerTest  with BeforeAndAfterEach {
 
-  val projectRepo = Injector.inject[ProjectRepo]
+  val projectRepo: ProjectRepo = Injector.inject[ProjectRepo]
 
-  override def afterEach() = EvolutionHelper.clean()
+  val recipeRepo: RecipeRepo = Injector.inject[RecipeRepo]
+
+  override def afterEach(): Unit = EvolutionHelper.clean()
 
   "An item " should {
+
+    "be inserted" in {
+      val action = recipeRepo
+        .create("enchiladas", "make them", "good", "better")
+        .flatMap(_ => recipeRepo.all)
+
+      val result = Await.result(action, Duration.Inf)
+
+      result.mustBe(List(Recipe(0, "enchiladas", "make them", "good", "better")))
+    }
 
     "be inserted during the first test case" in  {
         val action = projectRepo.create("A")
