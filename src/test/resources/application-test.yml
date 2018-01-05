@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:AZ;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    initialize: true
+    platform: test
+  h2:
+    console:
+      enabled: false
+
+  jpa:
+    ddl-auto: validate
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+
+server:
+  port: 9000
+
+logging:
+  file: ./log/recipe-book-test.log
+  level:
+    #ROOT: DEBUG
+    #org.springframework: 'OFF'
+    com.mvelusce: 'DEBUG'
