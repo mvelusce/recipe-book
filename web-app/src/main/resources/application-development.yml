@@ -17,10 +17,3 @@ spring:
 server:
   contextPath: /recipe-book
   port: 9000
-
-logging:
-   file: ./log/recipe-book-dev.log
-   level:
-      #ROOT: DEBUG
-      #org.springframework: 'OFF'
-      com.mvelusce: 'DEBUG'
