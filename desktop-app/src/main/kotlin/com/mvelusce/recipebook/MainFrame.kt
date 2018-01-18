@@ -1,18 +1,19 @@
 package com.mvelusce.recipebook
 
 
+import com.mvelusce.recipebook.browser.Browser
+import com.mvelusce.recipebook.config.Config
+import com.mvelusce.recipebook.loading.LoadStatus
+import com.mvelusce.recipebook.loading.LoadWebAppTask
+import com.mvelusce.recipebook.loading.WebAppStatusChecker
 import javafx.animation.FadeTransition
 import javafx.application.Application
-import javafx.beans.property.ReadOnlyObjectProperty
-import javafx.collections.FXCollections
-import javafx.collections.ObservableList
 import javafx.concurrent.Task
 import javafx.concurrent.Worker
 import javafx.geometry.Pos
 import javafx.scene.Scene
 import javafx.scene.control.Label
-import javafx.scene.control.ListView
-import javafx.scene.control.ProgressBar
+import javafx.scene.control.ProgressIndicator
 import javafx.scene.effect.DropShadow
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
@@ -27,32 +28,27 @@ import javafx.util.Duration
 
 class MainFrame : Application() {
 
-    private val command = "java -jar ./webapp/web-app-0.0.1-SNAPSHOT.war"
+    private lateinit var webAppProcess: Process
 
-    private lateinit var p: Process
-
-
-    val APPLICATION_ICON = "http://cdn1.iconfinder.com/data/icons/Copenhagen/PNG/32/people.png"
-    val SPLASH_IMAGE = "http://fxexperience.com/wp-content/uploads/2010/06/logo.png"
+    private val splashImage = "http://fxexperience.com/wp-content/uploads/2010/06/logo.png"
 
     private lateinit var splashLayout: Pane
-    private lateinit var loadProgress: ProgressBar
+    private lateinit var loadProgress: ProgressIndicator
     private lateinit var progressText: Label
     private lateinit var mainStage: Stage
-    private val SPLASH_WIDTH = 676.0
-    private val SPLASH_HEIGHT = 227.0
-    
+    private val splashWidth = 676.0
+    private val splashHeight = 227.0
 
     override fun init() {
-        val splash = ImageView(Image(SPLASH_IMAGE))
-        loadProgress = ProgressBar()
-        loadProgress.prefWidth = SPLASH_WIDTH - 20.0
-        progressText = Label("Will find friends for peanuts . . .")
+        val splash = ImageView(Image(splashImage))
+        loadProgress = ProgressIndicator()
+        loadProgress.prefWidth = splashWidth - 20.0
+        progressText = Label("Loading recipe book . . .")
         splashLayout = VBox()
         splashLayout.children.addAll(splash, loadProgress, progressText)
         progressText.alignment = Pos.CENTER
-        splashLayout.style = "-fx-padding: 5; " +
-                "-fx-background-color: cornsilk; " +
+        splashLayout.style = "-fx-padding: 10; " +
+                "-fx-background-color: white; " +
                 "-fx-border-width:5; " +
                 "-fx-border-color: " +
                 "linear-gradient(" +
@@ -65,58 +61,28 @@ class MainFrame : Application() {
 
     override fun start(stage: Stage) {
 
+        val statusChecker = WebAppStatusChecker()
 
-        val friendTask: Task<ObservableList<String>> = object : Task<ObservableList<String>>() {
-            @Throws(InterruptedException::class)
-            override fun call(): ObservableList<String> {
-                val foundFriends = FXCollections.observableArrayList<String>()
-                val availableFriends = FXCollections.observableArrayList(
-                        "Fili", "Kili", "Oin", "Gloin", "Thorin",
-                        "Dwalin", "Balin", "Bifur", "Bofur",
-                        "Bombur", "Dori", "Nori", "Ori"
-                )
+        val loadTask: Task<LoadStatus> = LoadWebAppTask(statusChecker, Config.webAppUrl, 50, 2000)
 
-                updateMessage("Finding friends . . .")
-                for (i in availableFriends.indices) {
-                    Thread.sleep(400)
-                    updateProgress((i + 1).toLong(), availableFriends.size.toLong())
-                    val nextFriend = availableFriends[i]
-                    foundFriends.add(nextFriend)
-                    updateMessage("Finding friends . . . found " + nextFriend)
-                }
-                Thread.sleep(400)
-                updateMessage("All friends found.")
-
-                return foundFriends
-            }
-        }
-
-        showSplash(stage, friendTask, object : InitCompletionHandler {
+        showSplash(stage, loadTask, object : InitCompletionHandler {
             override fun complete() {
-                showMainStage(friendTask.valueProperty())
+                showMainStage()
             }
         })
-        Thread(friendTask).start()
+        Thread(loadTask).start()
 
-
-        /*startWebapp()
-
-        Thread.sleep(20000)*/
-
-        /*stage.title = "Desktop Application"
-        stage.scene = Scene(Browser(), 750.0, 500.0, Color.web("#666970"))
-        stage.show()*/
+        startWebApp()
     }
 
-    private fun showMainStage(friends: ReadOnlyObjectProperty<ObservableList<String>>) {
+    private fun showMainStage() {
+
         mainStage = Stage(StageStyle.DECORATED)
-        mainStage.title = "My Friends"
-        mainStage.icons.add(Image(APPLICATION_ICON))
-
-        val peopleView = ListView<String>()
-        peopleView.itemsProperty().bind(friends)
-
-        mainStage.scene = Scene(peopleView)
+        mainStage.title = "Desktop Application"
+        mainStage.scene = Scene(Browser(), 750.0, 500.0, Color.web("#666970"))
+        val bounds = Screen.getPrimary().bounds
+        mainStage.x = bounds.minX + bounds.width / 2 - 750.0 / 2
+        mainStage.y = bounds.minY + bounds.height / 2 - 500.0 / 2
         mainStage.show()
     }
 
@@ -142,34 +108,31 @@ class MainFrame : Application() {
         val splashScene = Scene(splashLayout, Color.TRANSPARENT)
         val bounds = Screen.getPrimary().bounds
         initStage.scene = splashScene
-        initStage.x = bounds.minX + bounds.width / 2 - SPLASH_WIDTH / 2
-        initStage.y = bounds.minY + bounds.height / 2 - SPLASH_HEIGHT / 2
+        initStage.x = bounds.minX + bounds.width / 2 - splashWidth / 2
+        initStage.y = bounds.minY + bounds.height / 2 - splashHeight / 2
         initStage.initStyle(StageStyle.TRANSPARENT)
         initStage.isAlwaysOnTop = true
         initStage.show()
     }
 
     override fun stop() {
-        /*if (p.isAlive) {
-            p.destroy()
-        }*/
+        if (webAppProcess.isAlive) {
+            webAppProcess.destroy()
+        }
     }
 
-    private fun startWebapp() {
+    private fun startWebApp() {
         try {
-            p = Runtime.getRuntime().exec(command)
+            webAppProcess = Runtime.getRuntime().exec(Config.webAppExecCommand)
         } catch (err: Exception) {
             err.printStackTrace()
         }
-
     }
 }
-
 
 interface InitCompletionHandler {
     fun complete()
 }
-
 
 fun main(args: Array<String>) {
     Application.launch(MainFrame::class.java, *args)

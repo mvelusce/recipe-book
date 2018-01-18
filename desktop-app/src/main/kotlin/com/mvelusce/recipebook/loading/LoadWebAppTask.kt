@@ -2,6 +2,7 @@ package com.mvelusce.recipebook.loading
 
 import javafx.concurrent.Task
 import org.slf4j.LoggerFactory
+import java.lang.Integer.min
 
 class LoadWebAppTask(
         private val statusChecker: WebAppStatusChecker,
@@ -40,7 +41,7 @@ class LoadWebAppTask(
 
             logger.debug("Web-app not ready. Sleeping again. Attempt: [$i]. Sleep for: [$retryMillis]")
             Thread.sleep(retryMillis)
-            updateMessage("${cookingPrepActivities[attempts % cookingPrepActivities.size]} . . .")
+            updateMessage("${cookingPrepActivities[(i % cookingPrepActivities.size)]} . . .")
         }
         logger.error("Web-app loading failed")
         updateMessage(failedMessage)
