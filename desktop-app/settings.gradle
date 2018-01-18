@@ -1,2 +1,4 @@
 rootProject.name = 'desktop-app'
 
+include ':web-app'
+project(':web-app').projectDir = file('../web-app')

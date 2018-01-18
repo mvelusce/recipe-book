@@ -13,6 +13,9 @@ group 'com.mvelusce'
 version '0.0.1-SNAPSHOT'
 
 apply plugin: 'kotlin'
+apply plugin: 'application'
+
+mainClassName = "com.mvelusce.recipebook.MainFrame"
 
 repositories {
     jcenter()
@@ -38,4 +41,19 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+task buildWebApp(type: Copy, dependsOn: ':web-app:build') {
+    from('../web-app/build/libs/')
+    into('src/main/resources/')
+    include('*.war')
+}
+
+jar.dependsOn(buildWebApp)
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.mvelusce.recipebook.MainFrameKt'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
