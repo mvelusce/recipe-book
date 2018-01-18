@@ -1,0 +1,4 @@
+rootProject.name = 'recipe-book'
+
+include 'web-app'
+include 'desktop-app'
