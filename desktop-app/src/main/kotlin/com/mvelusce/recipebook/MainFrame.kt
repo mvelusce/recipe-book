@@ -24,9 +24,12 @@ import javafx.stage.Screen
 import javafx.stage.Stage
 import javafx.stage.StageStyle
 import javafx.util.Duration
+import org.slf4j.LoggerFactory
 
 
 class MainFrame : Application() {
+
+    private val logger = LoggerFactory.getLogger(MainFrame::class.java)
 
     private lateinit var webAppProcess: Process
 
@@ -125,6 +128,7 @@ class MainFrame : Application() {
         try {
             webAppProcess = Runtime.getRuntime().exec(Config.webAppExecCommand)
         } catch (err: Exception) {
+            logger.error("Exception when running web app process", err)
             err.printStackTrace()
         }
     }

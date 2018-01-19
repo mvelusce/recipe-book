@@ -61,3 +61,14 @@ bootRun {
     args = ["--spring.profiles.active=development"]
 }
 
+war {
+	archiveName = 'recipe-book-web-app.war'
+}
+
+task finalize(type: Copy) {
+	from('./build/libs/')
+	into('../lib')
+	include('*.war')
+}
+
+build.finalizedBy(finalize)
