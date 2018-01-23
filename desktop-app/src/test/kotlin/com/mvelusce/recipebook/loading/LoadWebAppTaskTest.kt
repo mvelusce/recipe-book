@@ -1,14 +1,11 @@
 package com.mvelusce.recipebook.loading
 
-import de.saxsys.javafx.test.JfxRunner
 import org.junit.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.slf4j.LoggerFactory
 
 
-@RunWith(JfxRunner::class)
 class LoadWebAppTaskTest {
 
     private val logger = LoggerFactory.getLogger(LoadWebAppTaskTest::class.java)
