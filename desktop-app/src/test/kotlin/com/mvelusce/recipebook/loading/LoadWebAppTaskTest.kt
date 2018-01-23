@@ -1,53 +1,44 @@
 package com.mvelusce.recipebook.loading
 
-import javafx.concurrent.Worker
-import javafx.concurrent.WorkerStateEvent
-import javafx.event.EventHandler
+import de.saxsys.javafx.test.JfxRunner
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.concurrent.CompletableFuture
-import de.saxsys.javafx.test.JfxRunner
 import org.mockito.Mockito
+import org.slf4j.LoggerFactory
 
 
 @RunWith(JfxRunner::class)
 class LoadWebAppTaskTest {
 
+    private val logger = LoggerFactory.getLogger(LoadWebAppTaskTest::class.java)
+
     private val statusChecker: WebAppStatusChecker = WebAppStatusChecker()
+
+    private val updater: (String) -> Unit = {logger.debug("Update message")}
 
     @Test
     fun callTestReturnSuccessWhenAppIsRunning() {
 
         val url = "http://www.google.com"
-        val futureTestResults = CompletableFuture<TestResults>()
 
-        val loadTask = setupTask(statusChecker, url, 1, futureTestResults)
+        val loadTask = LoadWebAppTask(statusChecker, 1, 1)
 
-        Thread(loadTask).start()
+        val result = loadTask.checkStatusRepeatedly(url, updater)
 
-        val result = futureTestResults.get()
-
-        Assert.assertEquals(LoadWebAppTask.successMessage, result.message)
-        Assert.assertEquals(Worker.State.SUCCEEDED, result.state)
-        Assert.assertEquals(LoadStatus.SUCCESS, result.loadStatus)
+        Assert.assertEquals(LoadStatus.SUCCESS, result)
     }
 
     @Test
     fun callTestReturnFailureWhenAppIsNotRespondingAfterTimeout() {
 
         val url = "http://non.existing.url.com"
-        val futureTestResults = CompletableFuture<TestResults>()
 
-        val loadTask = setupTask(statusChecker, url, 1, futureTestResults)
+        val loadTask = LoadWebAppTask(statusChecker, 1, 1)
 
-        Thread(loadTask).start()
+        val result = loadTask.checkStatusRepeatedly(url, updater)
 
-        val result = futureTestResults.get()
-
-        Assert.assertEquals(LoadWebAppTask.failedMessage, result.message)
-        Assert.assertEquals(Worker.State.SUCCEEDED, result.state)
-        Assert.assertEquals(LoadStatus.FAILED, result.loadStatus)
+        Assert.assertEquals(LoadStatus.FAILED, result)
     }
 
     @Test
@@ -65,50 +56,20 @@ class LoadWebAppTaskTest {
     }
 
     private fun testOneAttempt(mockChecker: WebAppStatusChecker, url: String) {
-        val futureTestResults = CompletableFuture<TestResults>()
 
-        val loadTask = setupTask(mockChecker, url, 1, futureTestResults)
+        val loadTask = LoadWebAppTask(mockChecker, 1, 1)
 
-        Thread(loadTask).start()
+        val result = loadTask.checkStatusRepeatedly(url, updater)
 
-        val result = futureTestResults.get()
-
-        Assert.assertEquals(LoadWebAppTask.failedMessage, result.message)
-        Assert.assertEquals(Worker.State.SUCCEEDED, result.state)
-        Assert.assertEquals(LoadStatus.FAILED, result.loadStatus)
+        Assert.assertEquals(LoadStatus.FAILED, result)
     }
 
     private fun testTwoAttempts(mockChecker: WebAppStatusChecker, url: String) {
-        val futureTestResults = CompletableFuture<TestResults>()
 
-        val loadTask = setupTask(mockChecker, url, 2, futureTestResults)
+        val loadTask = LoadWebAppTask(mockChecker, 2, 1)
 
-        Thread(loadTask).start()
+        val result = loadTask.checkStatusRepeatedly(url, updater)
 
-        val result = futureTestResults.get()
-
-        Assert.assertEquals(LoadWebAppTask.successMessage, result.message)
-        Assert.assertEquals(Worker.State.SUCCEEDED, result.state)
-        Assert.assertEquals(LoadStatus.SUCCESS, result.loadStatus)
-    }
-
-    private fun setupTask(checker: WebAppStatusChecker, url: String, attempts: Int,
-                          futureTestResults: CompletableFuture<TestResults>): LoadWebAppTask {
-        val loadTask = LoadWebAppTask(checker, url, attempts, 1)
-
-        loadTask.onSucceeded = EventHandler<WorkerStateEvent> {
-            futureTestResults.complete(TestResults(loadTask.message, loadTask.state, loadTask.value))
-        }
-
-        loadTask.onFailed = EventHandler<WorkerStateEvent> {
-            futureTestResults.complete(TestResults(loadTask.message, loadTask.state, loadTask.value))
-        }
-        return loadTask
+        Assert.assertEquals(LoadStatus.SUCCESS, result)
     }
 }
-
-private class TestResults (
-        val message: String,
-        val state: Worker.State,
-        val loadStatus: LoadStatus
-)

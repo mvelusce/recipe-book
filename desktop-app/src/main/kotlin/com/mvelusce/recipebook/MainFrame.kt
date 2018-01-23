@@ -3,6 +3,7 @@ package com.mvelusce.recipebook
 
 import com.mvelusce.recipebook.browser.Browser
 import com.mvelusce.recipebook.config.Config
+import com.mvelusce.recipebook.config.WebAppStatusCheckerConfig
 import com.mvelusce.recipebook.loading.LoadStatus
 import com.mvelusce.recipebook.loading.LoadWebAppTask
 import com.mvelusce.recipebook.loading.WebAppStatusChecker
@@ -65,8 +66,14 @@ class MainFrame : Application() {
     override fun start(stage: Stage) {
 
         val statusChecker = WebAppStatusChecker()
+        val loadWebAppTask = LoadWebAppTask(statusChecker, WebAppStatusCheckerConfig.attempts, WebAppStatusCheckerConfig.retryMillis)
 
-        val loadTask: Task<LoadStatus> = LoadWebAppTask(statusChecker, Config.webAppUrl, 50, 2000)
+        val loadTask: Task<LoadStatus> = object : Task<LoadStatus>() {
+            override fun call(): LoadStatus {
+                return loadWebAppTask.checkStatusRepeatedly(Config.webAppUrl, { s -> updateMessage(s) })
+            }
+
+        }
 
         showSplash(stage, loadTask, object : InitCompletionHandler {
             override fun complete() {

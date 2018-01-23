@@ -1,15 +1,12 @@
 package com.mvelusce.recipebook.loading
 
-import javafx.concurrent.Task
 import org.slf4j.LoggerFactory
-import java.lang.Integer.min
 
 class LoadWebAppTask(
         private val statusChecker: WebAppStatusChecker,
-        private val url: String,
         private val attempts: Int = 10,
         private val retryMillis: Long = 100
-) : Task<LoadStatus>() {
+) {
 
     private val logger = LoggerFactory.getLogger(LoadWebAppTask::class.java)
 
@@ -23,10 +20,10 @@ class LoadWebAppTask(
             "Boiling the water", "Leavening the dough", "Laying the table"
     )
 
-    override fun call(): LoadStatus {
+    fun checkStatusRepeatedly(url: String, updater: (String) -> Unit): LoadStatus {
         logger.info("Loading task started")
 
-        updateMessage("Getting your kitchen ready . . .")
+        updater("Getting your kitchen ready . . .")
 
         for (i: Int in 1..attempts) {
 
@@ -35,16 +32,16 @@ class LoadWebAppTask(
 
             if (response == LoadStatus.SUCCESS) {
                 logger.info("Attempt $i returned success")
-                updateMessage(successMessage)
+                updater(successMessage)
                 return LoadStatus.SUCCESS
             }
 
             logger.debug("Web-app not ready. Sleeping again. Attempt: [$i]. Sleep for: [$retryMillis]")
             Thread.sleep(retryMillis)
-            updateMessage("${cookingPrepActivities[(i % cookingPrepActivities.size)]} . . .")
+            updater("${cookingPrepActivities[(i % cookingPrepActivities.size)]} . . .")
         }
         logger.error("Web-app loading failed")
-        updateMessage(failedMessage)
+        updater(failedMessage)
         return LoadStatus.FAILED
     }
 }

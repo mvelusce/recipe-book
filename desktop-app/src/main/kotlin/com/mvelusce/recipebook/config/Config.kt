@@ -6,3 +6,10 @@ object Config {
 
     val webAppExecCommand = "java -jar ./lib/recipe-book-web-app.war"
 }
+
+object WebAppStatusCheckerConfig {
+
+    val attempts: Int = 50
+
+    val retryMillis: Long = 2000
+}
