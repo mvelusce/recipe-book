@@ -10,14 +10,14 @@ cache:
   directories:
   - "$HOME/.gradle"
 before_script:
-- git fetch
+- git pull origin master
 script:
 - "./gradlew clean build"
 - "./pack.sh"
 after_success:
 - git config user.email "marcoveluscek@gmail.com"
 - git config user.name "mvelusce"
-- git add . 
+- git add --all
 - git status 
 - git commit -m "Travis build"
 - git push -f https://mvelusce:$GH_TOKEN@github.com/mvelusce/recipe-book.git master
