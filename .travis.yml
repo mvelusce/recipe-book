@@ -19,3 +19,11 @@ before_script:
 
 script:
   - ./gradlew clean build
+  - ./pack.sh
+
+after_script:
+  - git add .
+  - git config user.email "${GIT_EMAIL}"
+  - git config user.name "${GIT_NAME}"
+  - git commit -m "New build"
+  - git push -f "${GIT_URL}" master
