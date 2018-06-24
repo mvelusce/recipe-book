@@ -4,7 +4,7 @@ object Config {
 
     val webAppUrl = "http://localhost:9000/recipe-book/"
 
-    val webAppExecCommand = "java -jar ./lib/recipe-book-web-app.war"
+    val webAppExecCommand = "java -jar ./artifacts/web-app/recipe-book-web-app.war"
 }
 
 object WebAppStatusCheckerConfig {

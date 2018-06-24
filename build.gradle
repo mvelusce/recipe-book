@@ -1,5 +1,21 @@
 
-allprojects {
+subprojects {
     group 'com.mvelusce'
     version '0.0.1-SNAPSHOT'
+
+    buildscript {
+        ext.kotlinVersion = '1.2.10'
+        ext.springBootVersion = '1.5.9.RELEASE'
+
+        repositories {
+            jcenter()
+            mavenCentral()
+        }
+        dependencies {
+            classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
+            classpath "org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}"
+            classpath 'edu.sc.seis.gradle:launch4j:2.4.4'
+        }
+    }
 }
