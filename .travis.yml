@@ -15,9 +15,11 @@ script:
 - "./gradlew clean build"
 - "./pack.sh"
 after_success:
-- echo "$TRAVIS_BUILD_NUMBER"
-- git push -f "https://mvelusce:$GH_TOKEN@github.com/mvelusce/recipe-book.git" master
-- ".travis/push.sh"
+- git config --global user.email "marcoveluscek@gmail.com"
+- git config --global user.name "mvelusce"
+- git add .
+- git commit --message "Travis build: $TRAVIS_BUILD_NUMBER"
+- git push -f https://mvelusce:$GH_TOKEN@github.com/mvelusce/recipe-book.git master
 #env:
   #global:
     #- secure: RIdjfIeic+V5GlXBsUjhQ/VJOmE9zngobVkc0VOgbu9Hlcw0CqQB/5owkaDSqeYlf9vOScpSowkELMazhsq1NkxLg4qCf9+muDPMDKBA2PH8SHSVL5wpKx30lA72EB0P+D6VG0Kb40lrRa6Y7KkYwdf6KpMkODAJFpUvN/cFjOlwRcdh9paPtKTiKOU3u0J3EYTSIG1E4/PCqFpd3BQhDTJuMxklc3F81jqrgdprjfKNoM6Oz7z53X5tHiSuHnTir6O4b/p95sIQ8mYLw+qD3ny2ksJtVuZ13saeShUekT1bGuMzjnlsdcNnBzlKLKvnUKtE1l/qlMQvvpKhj6yfXosVpxBP2YxRU1An+439Lat02oDcc9cZKlC3REk0dLctiGbIPpbfebOoCToG2S7Aawro6HkFOfrJVK4B5MxCJYPqrLlmRhYqKdw/NqCPcXNUBQucyyg+qgaUBTtgtlpX+2TPLbDt7udUMS6AXtma+gqkMXIe1DIu9D41kRQPdHEUSNrcBvS4ACyDNPansOmDm+wYD94vNM5qHjMV3gdPP8xlH4aTJmjuXOVkqh1vj7+4SCn2qp54eCffixLc4OQFiyh2fetDqEtrYxLJv2rokC+TBuQFZum+cFpGLZFvl7+sNJxxWytYidHFCKaslQxUjt8Tbidsj7Brnyo5/IW0CR0=
