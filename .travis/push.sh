@@ -12,7 +12,7 @@ commit_files() {
 }
 
 upload_files() {
-  git push -f "https://mvelusce:${GH_TOKEN}@github.com:mvelusce/recipe-book.git" master
+  git push -f origin master
 }
 
 setup_git
