@@ -1,33 +1,22 @@
 language: java
-
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 os:
-  - linux
-
+- linux
 branches:
   only:
-    - master
-
+  - master
 cache:
   directories:
-  - $HOME/.gradle
+  - "$HOME/.gradle"
+before_script:
+- git fetch
+script:
+- "./gradlew clean build"
+- "./pack.sh"
+after_success:
+- .travis/push.sh
 
 env:
   global:
-    - GH_REPO="github.com:mvelusce/recipe-book.git"
-
-before_script:
-  - git fetch
-
-script:
-  - ./gradlew clean build
-  - ./pack.sh
-
-after_success:
-  - git config user.email "travis@travis-ci.org"
-  - git config user.name "Travis CI"
-  - git add .
-  - git commit -m "New build"
-  - git push -f -q "https://mvelusce:${GITHUB_API_KEY}@${GH_REPO}" master > /dev/null 2>&1
+    secure: jrIsjg3LtR0MkCKAQ+Nc3P2iSxg7h8wRd9LafmLTVNhaT4NgoehVLW8LtHEV0zoorU3t3R8oGnLcke1GWkTkeVqJwKr1VFgATiIbA6fu3Hk6UJYtx141oTSKtvHqN3nhOfR9XckQdbHwDaFTwSvrfNPNAWi+5KBMettYBMHWVOMkxF9CFvrH+caGx1YZzziPaPQ01jIHnZARCAwts+v0lP8X66MJ+sn2QqOqMUMXrvyNaY4c+HZdfktit9ycmfidngpXdyw4QL4uom+BIc/JUy5uw6Wa/GpgLjJKyuZLgEJquY6CfbDNv13Rj4JgYs5Gsh64rowDU9uZp2/OnZoolZ/zhQNz+Nq5h8Jty2TMHlTGZtDoAbW2i2VthtIxsh6NXAobNX7nc1+uDv9oUWc3aeINS6pvgeyfFVHbkGNQ5nI2nIxrdujSJHDwKRVkAsoIIBzcLP9Z8C6nvkGQkgIqrFFl5r50ijnOqSW5APghYO2subRC97SzuVckXJyYWYC8Pm3R+kE2+EED5j9M6oq7EXGIHnUl8XKzxLP67RnU5kUlQYLQRwMHXLD+AX+ykJgUFeBjq7xtTl+7q2ivZoT7lXta0dyUmczFL/0qKGeJuNCX52PlCEMhjAuBNs5537mDahrXnLGYGBUY9bPaRSrZ0ZLqjU1mS+YlXm5JXzYebNA=
