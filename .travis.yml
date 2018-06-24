@@ -15,6 +15,7 @@ script:
 - "./gradlew clean build"
 - "./pack.sh"
 after_success:
+- echo "$TRAVIS_BUILD_NUMBER"
 - ".travis/push.sh"
 env:
   global:
