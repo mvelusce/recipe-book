@@ -13,10 +13,11 @@ before_script:
 - git pull origin master
 script:
 - "./gradlew clean build"
-- "./pack.sh"
 after_success:
 - git config user.email "marcoveluscek@gmail.com"
 - git config user.name "mvelusce"
+- git pull origin master
+- "./pack.sh"
 - git add --all
 - git status 
 - git commit -m "Travis build"
