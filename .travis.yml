@@ -16,7 +16,7 @@ cache:
 
 env:
   global:
-    - GH_REPO="github.com:mvelusce/recipe-book.git"
+    - GH_REPO="github.com/mvelusce/recipe-book.git"
 
 before_script:
   - git fetch
