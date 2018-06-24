@@ -19,7 +19,7 @@ before_script:
 
 script:
   - ./gradlew clean build
-  - ./launch4j/launch4j launch4j.xml
+  - ./launch4j/launch4j ../launch4j.xml
   - ./pack.sh
 
 after_script:
