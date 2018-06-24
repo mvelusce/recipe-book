@@ -12,7 +12,7 @@ commit_website_files() {
 }
 
 upload_files() {
-  git push "https://${GH_TOKEN}@github.com:mvelusce/recipe-book.git" master > /dev/null 2>&1
+  git push "https://${GH_TOKEN}@github.com:mvelusce/recipe-book.git" master
 }
 
 setup_git
