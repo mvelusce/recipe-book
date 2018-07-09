@@ -1,3 +1,6 @@
+/*
+
+apply plugin: 'maven'
 
 subprojects {
     group 'com.mvelusce'
@@ -19,3 +22,17 @@ subprojects {
         }
     }
 }
+
+
+
+task buildDistributionZip(type: Zip) {
+    //dependsOn subprojects.build
+
+    println("BUILD ZIP")
+    from 'Reports/'
+    include 'recipe-book.exe'
+    include 'artifacts/web-app/*'
+    archiveName 'recipe-book.zip'
+    destinationDir(file('.'))
+}
+*/

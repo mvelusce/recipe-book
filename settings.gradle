@@ -1,4 +1,5 @@
+/*
 rootProject.name = 'recipe-book'
 
-include 'web-app'
-include 'desktop-app'
+include 'web-app', 'desktop-app'
+*/
