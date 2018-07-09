@@ -12,6 +12,10 @@
   <artifactId>desktop-app</artifactId>
   <packaging>jar</packaging>
 
+  <properties>
+    <main.class>com.mvelusce.recipebook.MainFrameKt</main.class>
+  </properties>
+
   <repositories>
     <repository>
       <id>spring-plugins</id>
@@ -38,6 +42,55 @@
       <plugin>
         <artifactId>kotlin-maven-plugin</artifactId>
         <groupId>org.jetbrains.kotlin</groupId>
+      </plugin>
+      <!--TODO test whether dependencies are add by launch4j correctly-->
+      <!--<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <archive>
+                <manifest>
+                  <mainClass>${main.class}</mainClass>
+                </manifest>
+              </archive>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>-->
+      <plugin>
+        <groupId>com.akathist.maven.plugins.launch4j</groupId>
+        <artifactId>launch4j-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>l4j-exec</id>
+            <phase>package</phase>
+            <goals><goal>launch4j</goal></goals>
+            <configuration>
+              <headerType>gui</headerType>
+              <outfile>target/recipe-book.exe</outfile>
+              <icon>${project.basedir}/icon/recipe-book.ico</icon>
+              <jar>target/desktop-app-0.0.1-SNAPSHOT.jar</jar>
+              <classPath>
+                <mainClass>${main.class}</mainClass>
+                <!--<postCp>${project.basedir}/../web-app/target/recipe-book-web-app.war</postCp>-->
+              </classPath>
+              <jre>
+                <minVersion>1.8.0</minVersion>
+              </jre>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
