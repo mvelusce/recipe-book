@@ -16,4 +16,4 @@ spring:
 
 server:
   contextPath: /recipe-book
-  port: 9000
+  port: 9090
