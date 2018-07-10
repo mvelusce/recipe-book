@@ -44,7 +44,7 @@
         <groupId>org.jetbrains.kotlin</groupId>
       </plugin>
       <!--TODO test whether dependencies are add by launch4j correctly-->
-      <!--<plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
         <version>2.6</version>
@@ -67,7 +67,7 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>-->
+      </plugin>
       <plugin>
         <groupId>com.akathist.maven.plugins.launch4j</groupId>
         <artifactId>launch4j-maven-plugin</artifactId>

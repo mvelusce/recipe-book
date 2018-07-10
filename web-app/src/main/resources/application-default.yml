@@ -13,5 +13,6 @@ spring:
       ddl-auto: none
 
 server:
-  contextPath: /recipe-book
+  servlet:
+    contextPath: /recipe-book
   port: 9090

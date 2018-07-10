@@ -2,7 +2,7 @@ package com.mvelusce.recipebook.config
 
 object Config {
 
-    val webAppUrl = "http://localhost:9000/recipe-book/"
+    val webAppUrl = "http://localhost:9090/recipe-book/"
 
     val webAppExecCommand = "java -jar ./artifacts/web-app/recipe-book-web-app.war"
 }
