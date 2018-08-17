@@ -1,11 +1,11 @@
 {
-  "name": "angular-electron",
-  "version": "4.1.0",
-  "description": "Angular 6 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "name": "recipe-book",
+  "version": "0.0.1",
+  "description": "TODO - My recipe book",
+  "homepage": "TODO",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "mvelusce",
+    "email": "TODO"
   },
   "keywords": [
     "angular",

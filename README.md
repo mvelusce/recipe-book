@@ -11,6 +11,8 @@
 
 # Introduction
 
+TODO
+
 Bootstrap and package your project with Angular 6(+) and Electron (Typescript + SASS + Hot Reload) for creating Desktop applications.
 
 Currently runs with:
