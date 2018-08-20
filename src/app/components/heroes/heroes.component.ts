@@ -8,12 +8,6 @@ import { HeroService } from '../../services/hero/hero.service';
   styleUrls: ['./heroes.component.scss']
 })
 export class HeroesComponent implements OnInit {
-  selectedHero: Hero;
-
-  onSelect(hero: Hero): void {
-    this.selectedHero = hero;
-  }
-
   heroes: Hero[];
 
   constructor(private heroService: HeroService) { }
