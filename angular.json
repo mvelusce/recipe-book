@@ -18,11 +18,10 @@
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
-              "src/favicon.ico",
-              "src/favicon.png",
-              "src/favicon.icns",
-              "src/favicon.256x256.png",
-              "src/favicon.512x512.png"
+              "src/assets/img/icons/recipe-book-bw.png",
+              "src/assets/img/icons/recipe-book-bw-256.png",
+              "src/assets/img/icons/recipe-book.ico",
+              "src/assets/img/icons/recipe-book.png"
             ],
             "styles": [
               "src/styles.scss"
@@ -99,11 +98,10 @@
             ],
             "assets": [
               "src/assets",
-              "src/favicon.ico",
-              "src/favicon.png",
-              "src/favicon.icns",
-              "src/favicon.256x256.png",
-              "src/favicon.512x512.png"
+              "src/assets/img/icons/recipe-book-bw.png",
+              "src/assets/img/icons/recipe-book-bw-256.png",
+              "src/assets/img/icons/recipe-book.ico",
+              "src/assets/img/icons/recipe-book.png"
             ]
           }
         },
