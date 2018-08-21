@@ -37,6 +37,7 @@
     "e2e": "npm run postinstall:web && ng e2e"
   },
   "dependencies": {
+    "angular-in-memory-web-api": "^0.6.1",
     "crypto": "^1.0.1",
     "fs": "0.0.1-security",
     "timers": "^0.1.1"

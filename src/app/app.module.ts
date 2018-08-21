@@ -17,11 +17,15 @@ import { ElectronService } from './providers/electron.service';
 
 import { WebviewDirective } from './directives/webview.directive';
 
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService } from './in-memory-data.service';
+
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './components/heroes/heroes.component';
 import { HeroDetailComponent } from './components/hero-detail/hero-detail.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { HeroSearchComponent } from './components/hero-search/hero-search.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -35,12 +39,19 @@ export function HttpLoaderFactory(http: HttpClient) {
     HeroesComponent,
     HeroDetailComponent,
     MessagesComponent,
-    DashboardComponent
+    DashboardComponent,
+    HeroSearchComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
+    // and returns simulated server responses.
+    // Remove it when a real server is ready to receive requests.
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, { dataEncapsulation: false }
+    ),
     AppRoutingModule,
     TranslateModule.forRoot({
       loader: {
