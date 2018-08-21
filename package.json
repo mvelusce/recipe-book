@@ -1,11 +1,11 @@
 {
   "name": "recipe-book",
   "version": "0.0.1",
-  "description": "TODO - My recipe book",
-  "homepage": "TODO",
+  "description": "My recipe book",
+  "homepage": "https://github.com/mvelusce/recipe-book",
   "author": {
     "name": "mvelusce",
-    "email": "TODO"
+    "email": "marcoveluscek@gmail.com"
   },
   "keywords": [
     "angular",
