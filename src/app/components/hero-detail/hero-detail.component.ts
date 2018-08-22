@@ -5,6 +5,8 @@ import { Location } from '@angular/common';
 import { Hero } from '../heroes/hero';
 import { HeroService }  from '../../services/hero/hero.service';
 
+import { NedbDaoService } from '../../services/dao/nedb-dao.service';
+
 @Component({
   selector: 'app-hero-detail',
   templateUrl: './hero-detail.component.html',
@@ -17,6 +19,7 @@ export class HeroDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private heroService: HeroService,
+    private nedbDaoService: NedbDaoService,
     private location: Location
   ) {}
 
@@ -26,8 +29,9 @@ export class HeroDetailComponent implements OnInit {
 
   getHero(): void {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.heroService.getHero(id)
-      .subscribe(hero => this.hero = hero);
+    this.nedbDaoService.getHero(id).subscribe(hero => this.hero = hero);
+    /* this.heroService.getHero(id)
+      .subscribe(hero => this.hero = hero); */
   }
 
   goBack(): void {

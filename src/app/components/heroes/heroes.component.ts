@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Hero } from './hero';
 import { HeroService } from '../../services/hero/hero.service';
 
+import { NedbDaoService } from '../../services/dao/nedb-dao.service';
+
 @Component({
   selector: 'app-heroes',
   templateUrl: './heroes.component.html',
@@ -10,15 +12,20 @@ import { HeroService } from '../../services/hero/hero.service';
 export class HeroesComponent implements OnInit {
   heroes: Hero[];
 
-  constructor(private heroService: HeroService) { }
+  constructor(private heroService: HeroService, private nedbDaoService: NedbDaoService) { }
 
   ngOnInit() {
     this.getHeroes();
   }
 
   getHeroes(): void {
-    this.heroService.getHeroes()
-        .subscribe(heroes => this.heroes = heroes);
+    /* this.heroService.getHeroes()
+        .subscribe(heroes => this.heroes = heroes); */
+    this.nedbDaoService.getHeroes().subscribe(heroes => {
+      console.log("GET HEROES IN COMP");
+      console.debug(heroes);
+      this.heroes = heroes
+    });
   }
 
   add(name: string): void {
