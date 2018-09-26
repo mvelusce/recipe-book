@@ -7,7 +7,7 @@ import {
  } from 'rxjs/operators';
 
 import { Hero } from '../heroes/hero';
-import { HeroService } from '../../services/hero/hero.service';
+import { NedbDaoService } from '../../services/dao/nedb-dao.service';
 
 @Component({
   selector: 'app-hero-search',
@@ -18,7 +18,7 @@ export class HeroSearchComponent implements OnInit {
   heroes$: Observable<Hero[]>;
   private searchTerms = new Subject<string>();
 
-  constructor(private heroService: HeroService) {}
+  constructor(private nedbDaoService: NedbDaoService) {}
 
   // Push a search term into the observable stream.
   search(term: string): void {
@@ -34,7 +34,7 @@ export class HeroSearchComponent implements OnInit {
       distinctUntilChanged(),
 
       // switch to new search observable each time the term changes
-      switchMap((term: string) => this.heroService.searchHeroes(term)),
+      switchMap((term: string) => this.nedbDaoService.searchHeroes(term)),
     );
   }
 }

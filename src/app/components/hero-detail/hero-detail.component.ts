@@ -3,8 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Hero } from '../heroes/hero';
-import { HeroService }  from '../../services/hero/hero.service';
-
 import { NedbDaoService } from '../../services/dao/nedb-dao.service';
 
 @Component({
@@ -18,7 +16,6 @@ export class HeroDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private heroService: HeroService,
     private nedbDaoService: NedbDaoService,
     private location: Location
   ) {}
@@ -30,8 +27,6 @@ export class HeroDetailComponent implements OnInit {
   getHero(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.nedbDaoService.getHero(id).subscribe(hero => this.hero = hero);
-    /* this.heroService.getHero(id)
-      .subscribe(hero => this.hero = hero); */
   }
 
   goBack(): void {
@@ -39,7 +34,7 @@ export class HeroDetailComponent implements OnInit {
   }
 
   save(): void {
-    this.heroService.updateHero(this.hero)
+    this.nedbDaoService.updateHero(this.hero)
       .subscribe(() => this.goBack());
   }
 
