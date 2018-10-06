@@ -34,6 +34,7 @@ export class HeroDetailComponent implements OnInit {
   }
 
   save(): void {
+    console.debug("SAVE", this.hero);
     this.nedbDaoService.updateHero(this.hero)
       .subscribe(() => this.goBack());
   }
