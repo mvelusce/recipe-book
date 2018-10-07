@@ -14,7 +14,15 @@ export class NedbDaoService {
 
   private db = new Nedb({ filename: './data/db/.recipes', autoload: true });
 
-  constructor() {}
+  constructor() {
+    /*console.log("CONST");
+    const heroes = this.createDb();
+
+    this.db.insert(heroes, function (err, newDoc) { // TODO to remove and use file system
+      console.debug("Heroes inserted in DB");
+      console.log(newDoc);
+    });*/
+  }
 
   private createDb() {// TODO to remove and use file system
     const heroes = [
@@ -47,9 +55,9 @@ export class NedbDaoService {
     });
   }
 
-  getHero(id: number): Observable<Hero> {
+  getHero(id: string): Observable<Hero> {
     return new Observable((observer) => {
-      this.db.findOne<Hero>({ id: id }, function (err: Error, result: Hero) {
+      this.db.findOne<Hero>({ _id: id }, function (err: Error, result: Hero) {
         if (err != null) {
           return this.unsubscribeWhenError(`Error when getting hero with id ${id}.`, err);
         }
@@ -64,7 +72,7 @@ export class NedbDaoService {
   updateHero(hero: Hero): Observable<Hero> {
     return new Observable((observer) => {
       console.debug("UPDATE asd", hero);
-      this.db.update(hero.id, hero.name, {upsert: true}, function(err, numUpdated) {
+      this.db.update({_id: hero._id}, {$set : hero}, {upsert: true}, function(err, numUpdated) {// TODO this syntax works, need to update all other methods to interact with DB
         if (err != null) {
           console.error("ERROR UPDATE");
           console.error("message", err);
@@ -75,6 +83,7 @@ export class NedbDaoService {
         observer.next(hero);
         observer.complete();
       });
+      //this.db.persistence.compactDatafile();
       return {unsubscribe() {}}
     });
   }
@@ -85,7 +94,7 @@ export class NedbDaoService {
         if (err != null) {
           return this.unsubscribeWhenError(`Error when adding the hero: ${hero}.`, err);
         }
-        console.debug(`Hero inserted in DB: ${newHero}`);
+        console.debug("Hero inserted in DB:", newHero);
         observer.next(newHero);
         observer.complete();
       });
@@ -93,16 +102,16 @@ export class NedbDaoService {
     });
   }
   
-  deleteHero(hero: Hero | number): Observable<Hero> {
-    const id = typeof hero === 'number' ? hero : hero.id;
+  deleteHero(hero: Hero | string): Observable<Hero> {
+    const id = typeof hero === 'string' ? hero : hero._id;
     return new Observable((observer) => {
-      this.db.remove({id: id}, {}, function(err, numRemoved) {
+      this.db.remove({_id: id}, {}, function(err, numRemoved) {
         if (err != null) {
           return this.unsubscribeWhenError(`Error when removing the hero with id: ${id}.`, err);
         }
         console.debug(`Hero removed from DB: ${id}`);
         let removedHero: Hero = new Hero();
-        removedHero.id = id;// FIXME constructor ??
+        removedHero._id = id;// FIXME constructor ??
         observer.next(removedHero);
         observer.complete();
       });
@@ -112,7 +121,7 @@ export class NedbDaoService {
 
   searchHeroes(term: string): Observable<Hero[]> {
     return new Observable((observer) => {
-      this.db.find({name: term}, function(err, result) {
+      this.db.find({name: term}, function(err, result) {// TODO search more than for name
         if (err != null) {
           return this.unsubscribeWhenError(`Error when searching hero with name ${term}.`, err);
         }
