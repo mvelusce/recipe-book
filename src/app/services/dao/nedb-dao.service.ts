@@ -12,17 +12,9 @@ export class NedbDaoService {
 
   // TODO doc DB: https://github.com/louischatriot/nedb
 
-  private db = new Nedb();
+  private db = new Nedb({ filename: './data/db/.recipes', autoload: true });
 
-  constructor() {
-    console.log("CONST");
-    const heroes = this.createDb();
-
-    this.db.insert(heroes, function (err, newDoc) { // TODO to remove and use file system
-      console.debug("Heroes inserted in DB");
-      console.log(newDoc);
-    });
-  }
+  constructor() {}
 
   private createDb() {// TODO to remove and use file system
     const heroes = [
@@ -69,14 +61,18 @@ export class NedbDaoService {
     });
   }
 
-  updateHero(hero: Hero): Observable<any> {
+  updateHero(hero: Hero): Observable<Hero> {
     return new Observable((observer) => {
-      this.db.update(hero.id, hero, {upsert: true}, function(err, numUpdated) {
+      console.debug("UPDATE asd", hero);
+      this.db.update(hero.id, hero.name, {upsert: true}, function(err, numUpdated) {
         if (err != null) {
-          return this.unsubscribeWhenError(`Error when updating the hero: ${hero}.`, err);
+          console.error("ERROR UPDATE");
+          console.error("message", err);
+          return {unsubscribe() {}};
+          //return this.unsubscribeWhenError(`Error when updating the hero: ${hero}.`, err);
         }
-        console.debug(`Updating hero: ${hero}. Number of updated: ${numUpdated}`);
-        observer.next(numUpdated);
+        console.debug("Updating hero:", hero, "Number of updated:", numUpdated);
+        observer.next(hero);
         observer.complete();
       });
       return {unsubscribe() {}}
