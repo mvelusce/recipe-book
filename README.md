@@ -12,6 +12,14 @@
 # Introduction
 
 TODO
+```bash
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get install -y nodejs
+nodejs -v: v8.12.0
+npm -v: 6.4.1
+npm install
+npm run start // start with hot reload
+```
 
 Bootstrap and package your project with Angular 6(+) and Electron (Typescript + SASS + Hot Reload) for creating Desktop applications.
 
