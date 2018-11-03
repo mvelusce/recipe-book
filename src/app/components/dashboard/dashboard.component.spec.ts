@@ -1,4 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { Component } from '@angular/core';
 
 import { DashboardComponent } from './dashboard.component';
 
@@ -8,7 +11,14 @@ describe('DashboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DashboardComponent ]
+      declarations: [ 
+        DashboardComponent,
+        MockHeroSearchComponent
+      ],
+      imports: [
+        RouterTestingModule,
+        TranslateModule.forRoot()
+      ]
     })
     .compileComponents();
   }));
@@ -23,3 +33,10 @@ describe('DashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-hero-search',
+  template: ''
+})
+class MockHeroSearchComponent {
+}
