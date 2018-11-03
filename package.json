@@ -34,6 +34,7 @@
     "electron:windows": "npm run build:prod && npx electron-builder build --windows",
     "electron:mac": "npm run build:prod && npx electron-builder build --mac",
     "test": "npm run postinstall:web && ng test",
+    "test:dev": "npm run postinstall:web && ng test --watch",
     "e2e": "npm run postinstall:web && ng e2e"
   },
   "dependencies": {
