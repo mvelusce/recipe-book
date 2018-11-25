@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Hero } from '../heroes/hero';
+import { Recipe } from '../../model/recipe';
 import { NedbDaoService } from '../../services/dao/nedb-dao.service';
 
 @Component({
@@ -8,16 +8,16 @@ import { NedbDaoService } from '../../services/dao/nedb-dao.service';
   styleUrls: [ './dashboard.component.scss' ]
 })
 export class DashboardComponent implements OnInit {
-  heroes: Hero[] = [];
+  recipes: Recipe[] = [];
 
   constructor(private nedbDaoService: NedbDaoService) { }
 
   ngOnInit() {
-    this.getHeroes();
+    this.getRecipes();
   }
 
-  getHeroes(): void {
-    this.nedbDaoService.getHeroes()
-      .subscribe(heroes => this.heroes = heroes.slice(1, 5));
+  getRecipes(): void {
+    this.nedbDaoService.getRecipes()
+      .subscribe(recipes => this.recipes = recipes.slice(1, 5));
   }
 }

@@ -20,7 +20,7 @@ describe('NedbDaoService', () => {
   }));
 
   it('should do stuff in DB', inject([NedbDaoService], (service: NedbDaoService) => {
-    const heroes = service.getHeroes();
-    expect(heroes).toBeDefined();
+    const recipes = service.getRecipes();
+    expect(recipes).toBeDefined();
   }));
 });

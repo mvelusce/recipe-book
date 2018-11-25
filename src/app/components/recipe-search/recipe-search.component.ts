@@ -6,16 +6,16 @@ import {
    debounceTime, distinctUntilChanged, switchMap
  } from 'rxjs/operators';
 
-import { Hero } from '../heroes/hero';
+import { Recipe } from '../../model/recipe';
 import { NedbDaoService } from '../../services/dao/nedb-dao.service';
 
 @Component({
-  selector: 'app-hero-search',
-  templateUrl: './hero-search.component.html',
-  styleUrls: [ './hero-search.component.scss' ]
+  selector: 'app-recipe-search',
+  templateUrl: './recipe-search.component.html',
+  styleUrls: [ './recipe-search.component.scss' ]
 })
-export class HeroSearchComponent implements OnInit {
-  heroes$: Observable<Hero[]>;
+export class RecipeSearchComponent implements OnInit {
+  recipes$: Observable<Recipe[]>;
   private searchTerms = new Subject<string>();
 
   constructor(private nedbDaoService: NedbDaoService) {}
@@ -26,7 +26,7 @@ export class HeroSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.heroes$ = this.searchTerms.pipe(
+    this.recipes$ = this.searchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
 
@@ -34,7 +34,7 @@ export class HeroSearchComponent implements OnInit {
       distinctUntilChanged(),
 
       // switch to new search observable each time the term changes
-      switchMap((term: string) => this.nedbDaoService.searchHeroes(term)),
+      switchMap((term: string) => this.nedbDaoService.searchRecipes(term)),
     );
   }
 }

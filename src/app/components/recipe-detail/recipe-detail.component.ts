@@ -2,17 +2,17 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Hero } from '../heroes/hero';
+import { Recipe } from '../../model/recipe';
 import { NedbDaoService } from '../../services/dao/nedb-dao.service';
 
 @Component({
-  selector: 'app-hero-detail',
-  templateUrl: './hero-detail.component.html',
-  styleUrls: ['./hero-detail.component.scss']
+  selector: 'app-recipe-detail',
+  templateUrl: './recipe-detail.component.html',
+  styleUrls: ['./recipe-detail.component.scss']
 })
-export class HeroDetailComponent implements OnInit {
+export class RecipeDetailComponent implements OnInit {
 
-  @Input() hero: Hero;
+  @Input() recipe: Recipe;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,12 +21,12 @@ export class HeroDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getHero();
+    this.getRecipe();
   }
 
-  getHero(): void {
+  getRecipe(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.nedbDaoService.getHero(id).subscribe(hero => this.hero = hero);
+    this.nedbDaoService.getRecipe(id).subscribe(recipe => this.recipe = recipe);
   }
 
   goBack(): void {
@@ -34,8 +34,8 @@ export class HeroDetailComponent implements OnInit {
   }
 
   save(): void {
-    console.debug("SAVE", this.hero);
-    this.nedbDaoService.updateHero(this.hero)
+    console.debug("SAVE", this.recipe);
+    this.nedbDaoService.updateRecipe(this.recipe)
       .subscribe(() => this.goBack());
   }
 

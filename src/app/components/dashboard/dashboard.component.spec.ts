@@ -13,7 +13,7 @@ describe('DashboardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ 
         DashboardComponent,
-        MockHeroSearchComponent
+        MockRecipeSearchComponent
       ],
       imports: [
         RouterTestingModule,
@@ -35,8 +35,8 @@ describe('DashboardComponent', () => {
 });
 
 @Component({
-  selector: 'app-hero-search',
+  selector: 'app-recipe-search',
   template: ''
 })
-class MockHeroSearchComponent {
+class MockRecipeSearchComponent {
 }

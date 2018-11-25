@@ -18,11 +18,11 @@ import { ElectronService } from './providers/electron.service';
 import { WebviewDirective } from './directives/webview.directive';
 
 import { AppComponent } from './app.component';
-import { HeroesComponent } from './components/heroes/heroes.component';
-import { HeroDetailComponent } from './components/hero-detail/hero-detail.component';
+import { RecipesComponent } from './components/recipes/recipes.component';
+import { RecipeDetailComponent } from './components/recipe-detail/recipe-detail.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { HeroSearchComponent } from './components/hero-search/hero-search.component';
+import { RecipeSearchComponent } from './components/recipe-search/recipe-search.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -33,11 +33,11 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     WebviewDirective,
-    HeroesComponent,
-    HeroDetailComponent,
+    RecipesComponent,
+    RecipeDetailComponent,
     MessagesComponent,
     DashboardComponent,
-    HeroSearchComponent
+    RecipeSearchComponent
   ],
   imports: [
     BrowserModule,
