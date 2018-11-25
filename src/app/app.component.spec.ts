@@ -5,6 +5,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ElectronService } from './providers/electron.service';
 import { Component } from '@angular/core';
 
+@Component({
+  selector: 'app-messages',
+  template: ''
+})
+class MockMessagesComponent {
+}
+
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -32,11 +39,4 @@ describe('AppComponent', () => {
 class TranslateServiceStub {
   setDefaultLang(lang: string): void {
   }
-}
-
-@Component({
-  selector: 'app-messages',
-  template: ''
-})
-class MockMessagesComponent {
 }

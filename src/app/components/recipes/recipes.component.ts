@@ -18,8 +18,6 @@ export class RecipesComponent implements OnInit {
 
   getRecipes(): void {
     this.nedbDaoService.getRecipes().subscribe(recipes => {
-      console.log("GET RECIPES IN COMP");
-      console.debug(recipes);
       this.recipes = recipes
     });
   }
@@ -29,7 +27,6 @@ export class RecipesComponent implements OnInit {
     if (!name) { return; }
     this.nedbDaoService.addRecipe({ name } as Recipe)
       .subscribe(recipe => {
-        console.debug("ADD RECIPE IN DB");
         this.recipes.push(recipe);
       });
   }

@@ -5,13 +5,20 @@ import { Component } from '@angular/core';
 
 import { DashboardComponent } from './dashboard.component';
 
+@Component({
+  selector: 'app-recipe-search',
+  template: ''
+})
+class MockRecipeSearchComponent {
+}
+
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ 
+      declarations: [
         DashboardComponent,
         MockRecipeSearchComponent
       ],
@@ -33,10 +40,3 @@ describe('DashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
-@Component({
-  selector: 'app-recipe-search',
-  template: ''
-})
-class MockRecipeSearchComponent {
-}

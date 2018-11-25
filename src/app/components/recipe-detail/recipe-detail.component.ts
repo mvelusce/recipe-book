@@ -34,7 +34,6 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   save(): void {
-    console.debug("SAVE", this.recipe);
     this.nedbDaoService.updateRecipe(this.recipe)
       .subscribe(() => this.goBack());
   }
