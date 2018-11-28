@@ -10,8 +10,6 @@ import { Recipe } from '../../model/recipe';
 })
 export class NedbDaoService {
 
-  // TODO doc DB: https://github.com/louischatriot/nedb
-
   private db = new Nedb({ filename: './data/db/.recipes', autoload: true });
 
   constructor() {
@@ -27,12 +25,12 @@ export class NedbDaoService {
   private createDb() {// TODO to remove and use file system
     const recipes = [
       {
-        name: "recipe1",
+        name: "recipe42",
         photo: "./default-bf.jpg",
         category: "Breakfast",
         servings: 42,
         calories: 123,
-        ingredients: [{ingredient: "Onions"}],
+        ingredients: [{ingredient: "Onions"}, {ingredient: "Sugar"}],
         directions: [{instruction: "Do it"}],
         notes: "Great",
         prepTime: "15 mins", 
