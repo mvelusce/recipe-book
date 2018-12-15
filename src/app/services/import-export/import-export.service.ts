@@ -4,7 +4,7 @@ import { fromPath, writeToPath } from 'fast-csv';
 
 import { NedbDaoService } from '../dao/nedb-dao.service';
 
-import { Recipe } from '../../model/recipe'
+import { Recipe, Ingredient, Direction } from '../../model/recipe'
 
 var flatten = require('flat');
 
@@ -16,14 +16,40 @@ export class ImportExportService {
   constructor(private nedbDaoService: NedbDaoService) {}
 
   exportRecipes(path: string): void {
-
+    var maxIngredients = 20;
+    var maxDirections = 20;
     this.nedbDaoService.getRecipes().subscribe(recipes => {
-      var flatRecipes = recipes.map((v, i, a) => {return flatten(v)});// TODO this only works if all sub arrays are the same lenght - need to transform ingredients and directions
-      writeToPath(path, flatRecipes, {headers: true, quoteColumns: true})
+      var normRecipes = this.normRecipes(recipes, maxIngredients, maxDirections);
+      writeToPath(path, normRecipes, {headers: true, quoteColumns: true})
       .on("finish", function(){
         console.log("Export completed");
       });
     });
+  }
+
+  private normRecipes(recipes: Recipe[], maxIngredients: number, maxDirections: number): Recipe[] {
+    return recipes.map((recipe, i, a) => {
+      var flatRecipe = Object.assign({}, recipe);
+      flatRecipe.ingredients = this.normIngredients(recipe.ingredients, maxIngredients);
+      flatRecipe.directions = this.normDirections(recipe.directions, maxDirections);
+      return flatten(recipe);
+    });
+  }
+
+  private normIngredients(ingredients: Ingredient[], length: number): Ingredient[] {
+    var emptyIngredients = Array<Ingredient>(length);
+    ingredients.forEach((ing, i, a) => {
+      emptyIngredients[i] = ing;
+    });
+    return emptyIngredients;
+  }
+
+  private normDirections(directions: Direction[], length: number): Direction[] {
+    var emptyDirections = Array<Direction>(length);
+    directions.forEach((ing, i, a) => {
+      emptyDirections[i] = ing;
+    });
+    return emptyDirections;
   }
 
   importRecipes(path: string): void {

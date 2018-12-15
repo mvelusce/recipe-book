@@ -91,7 +91,7 @@ export class NedbDaoService {
 
   updateRecipe(recipe: Recipe): Observable<Recipe> {
     return new Observable((observer) => {
-      this.db.update({_id: recipe._id}, {$set : recipe}, {upsert: true}, function(err, numUpdated) {// TODO this syntax works, need to update all other methods to interact with DB
+      this.db.update({_id: recipe._id}, {$set : recipe}, {upsert: true}, function(err, numUpdated) {
         if (err != null) {
           console.error("ERROR UPDATE");
           console.error("message", err);
