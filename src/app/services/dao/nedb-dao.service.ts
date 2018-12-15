@@ -13,13 +13,12 @@ export class NedbDaoService {
   private db = new Nedb({ filename: './data/db/.recipes', autoload: true });
 
   constructor() {
-    console.log("CONST");
-    const recipes = this.createDb();
+    //const recipes = this.createDb();
 
-    this.db.insert(recipes, function (err, newDoc) { // TODO to remove and use file system
+    /* this.db.insert(recipes, function (err, newDoc) { // TODO to remove and use file system
       console.debug("Recipes inserted in DB");
       console.log(newDoc);
-    });
+    }); */
   }
 
   private createDb() {// TODO to remove and use file system

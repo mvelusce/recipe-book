@@ -1,7 +1,7 @@
 export class Recipe {
   _id: string;
   name: string;
-  photo: URL;
+  photo: string;
   category: string;
   servings: number;
   calories: number;

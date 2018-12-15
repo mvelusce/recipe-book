@@ -24,6 +24,8 @@ import { MessagesComponent } from './components/messages/messages.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RecipeSearchComponent } from './components/recipe-search/recipe-search.component';
 
+import { NedbDaoService } from './services/dao/nedb-dao.service';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -52,7 +54,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  providers: [ElectronService],
+  providers: [ElectronService, NedbDaoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

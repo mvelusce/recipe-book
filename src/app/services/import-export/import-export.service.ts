@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit, Inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { fromPath, writeToPath } from 'fast-csv';
 
@@ -13,7 +13,7 @@ var flatten = require('flat');
 })
 export class ImportExportService {
 
-  constructor(private nedbDaoService: NedbDaoService) { }
+  constructor(private nedbDaoService: NedbDaoService) {}
 
   exportRecipes(path: string): void {
 
@@ -27,16 +27,64 @@ export class ImportExportService {
   }
 
   importRecipes(path: string): void {
-
+    var dbService = this.nedbDaoService;
     const stream = fromPath(path, {
         headers: true,
         delimiter: ";"
     })
     stream.on("data", function(data){
-        console.log(data);
-        var recipe = new Recipe;// TODO map all fields from old format to new
+        console.debug(data);
+        var recipe = new Recipe;
         recipe.name = data['Nome'];
-        console.log(recipe);
+        recipe.photo = "assets/img/recipe-book.png";
+        recipe.category = data['Categoria'];
+        recipe.servings = data['Persone'];
+        recipe.calories = data['Caltot'];
+        recipe.ingredients = [
+          data['Ingr.1'],
+          data['Ingr.2'],
+          data['Ingr.3'],
+          data['Ingr.4'],
+          data['Ingr.5'],
+          data['Ingr.6'],
+          data['Ingr.7'],
+          data['Ingr.8'],
+          data['Ingr.9'],
+          data['Ingr.10'],
+          data['Ingr.11'],
+          data['Ingr.12'],
+          data['Ingr.13'],
+          data['Ingr.14'],
+          data['Ingr.15'],
+          data['Ingr.16'],
+          data['Ingr.17'],
+          data['Ingr.18']
+        ];
+        recipe.directions = [
+          data['Istruzioni 1'],
+          data['Istruzioni 2'],
+          data['Istruzioni 3'],
+          data['Istruzioni 4'],
+          data['Istruzioni 5'],
+          data['Istruzioni 6'],
+          data['Istruzioni 7'],
+          data['Istruzioni 8'],
+          data['Istruzioni 9'],
+          data['Istruzioni 10'],
+          data['Istruzioni 11'],
+          data['Istruzioni 12'],
+          data['Istruzioni 13'],
+          data['Istruzioni 14'],
+          data['Istruzioni 15'],
+          data['Istruzioni 16'],
+          data['Istruzioni 17'],
+          data['Istruzioni 18'],
+        ];
+        recipe.notes = data['Categoria'];
+        recipe.prepTime = data['Categoria'];
+        recipe.stars = 3;
+        console.debug(recipe);
+        dbService.addRecipe(recipe).subscribe();
     })
     .on("end", function(){
         console.log("Import completed");
