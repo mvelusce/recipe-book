@@ -16,15 +16,47 @@ export class ImportExportService {
   constructor(private nedbDaoService: NedbDaoService) {}
 
   exportRecipes(path: string): void {
-    var maxIngredients = 20;
-    var maxDirections = 20;
+    var maxIng = this.maxIngredients();
+    var maxDir = this.maxDirections();
     this.nedbDaoService.getRecipes().subscribe(recipes => {
-      var normRecipes = this.normRecipes(recipes, maxIngredients, maxDirections);
+      var normRecipes = this.normRecipes(recipes, maxIng, maxDir);
       writeToPath(path, normRecipes, {headers: true, quoteColumns: true})
       .on("finish", function(){
         console.log("Export completed");
       });
     });
+  }
+
+  private maxIngredients(): number {
+    var maxIngredients = 0;
+    this.nedbDaoService.getRecipes().subscribe(recipes => {
+      maxIngredients = recipes
+        .map((r, i, a) => {return r.ingredients.length;})
+        .reduce((p, c, i, a) => {
+          if (p >= c) {
+            return p;
+          } else {
+            return c;
+          }
+        });
+      });
+    return maxIngredients;
+  }
+
+  private maxDirections(): number {
+    var maxDirections = 0;
+    this.nedbDaoService.getRecipes().subscribe(recipes => {
+      maxDirections = recipes
+        .map((r, i, a) => {return r.directions.length;})
+        .reduce((p, c, i, a) => {
+          if (p >= c) {
+            return p;
+          } else {
+            return c;
+          }
+        });
+      });
+    return maxDirections;
   }
 
   private normRecipes(recipes: Recipe[], maxIngredients: number, maxDirections: number): Recipe[] {
@@ -59,7 +91,6 @@ export class ImportExportService {
         delimiter: ";"
     })
     stream.on("data", function(data){
-        console.debug(data);
         var recipe = new Recipe;
         recipe.name = data['Nome'];
         recipe.photo = "assets/img/recipe-book.png";
@@ -109,7 +140,6 @@ export class ImportExportService {
         recipe.notes = data['Categoria'];
         recipe.prepTime = data['Categoria'];
         recipe.stars = 3;
-        console.debug(recipe);
         dbService.addRecipe(recipe).subscribe();
     })
     .on("end", function(){
