@@ -1,15 +1,59 @@
 <div *ngIf="recipe">
 
-  <h2>{{recipe.name | uppercase}} Details</h2>
-  <div><span>id: </span>{{recipe._id}}</div>
-  <div>
-    <label>name:
-      <input [(ngModel)]="recipe.name" placeholder="name">
-    </label>
-  </div>
+  <h2>{{recipe.name}}</h2>
 
   <button (click)="goBack()">go back</button>
 
   <button (click)="save()">save</button>
+
+  <div class="summary-background">
+
+    <section class="recipe-photo">
+      <img class="recipe-main-img" src="{{recipe.photo}}">
+      <label>photo:
+        <input [(ngModel)]="recipe.photo" placeholder="photo">
+      </label>
+    </section>
+
+    <section class="recipe-summary">
+      <label>name:
+        <input [(ngModel)]="recipe.name" placeholder="name">
+      </label>
+      <label>category:
+        <input [(ngModel)]="recipe.category" placeholder="category">
+      </label>
+      <label>servings:
+        <input [(ngModel)]="recipe.servings" placeholder="servings">
+      </label>
+      <label>calories:
+        <input [(ngModel)]="recipe.calories" placeholder="calories">
+      </label>
+      <label>prepTime:
+        <input [(ngModel)]="recipe.prepTime" placeholder="prepTime">
+      </label>
+      <label>stars:
+        <input [(ngModel)]="recipe.stars" placeholder="stars">
+      </label>
+    </section>
+
+    <section class="recipe-ingredient">
+      <label>ingredients:
+        <input [(ngModel)]="recipe.ingredients" placeholder="ingredients">
+      </label>
+    </section>
+
+    <section class="recipe-directions">
+      <label>directions:
+        <input [(ngModel)]="recipe.directions" placeholder="directions">
+      </label>
+    </section>
+
+    <section class="recipe-notes">
+      <label>notes:
+        <input [(ngModel)]="recipe.notes" placeholder="notes">
+      </label>
+    </section>
+
+  </div>
 
 </div>
