@@ -1,57 +1,97 @@
 <div *ngIf="recipe">
 
-  <h2>{{recipe.name}}</h2>
-
   <button (click)="goBack()">go back</button>
 
   <button (click)="save()">save</button>
 
-  <div class="summary-background">
-
-    <section class="recipe-photo">
-      <img class="recipe-main-img" src="{{recipe.photo}}" alt="Photo of {{recipe.name}}">
-      <a href="upload-new-image">{{ 'PAGES.RECIPE.UPLOAD-IMAGE' | translate }}</a>
-    </section>
-
-    <section class="recipe-summary">
-      <label>name:
-        <input [(ngModel)]="recipe.name" placeholder="name">
-      </label>
-      <label>category:
-        <input [(ngModel)]="recipe.category" placeholder="category">
-      </label>
-      <label>servings:
-        <input [(ngModel)]="recipe.servings" placeholder="servings">
-      </label>
-      <label>calories:
-        <input [(ngModel)]="recipe.calories" placeholder="calories">
-      </label>
-      <label>prepTime:
-        <input [(ngModel)]="recipe.prepTime" placeholder="prepTime">
-      </label>
-      <label>stars:
-        <input [(ngModel)]="recipe.stars" placeholder="stars">
-      </label>
-    </section>
-
-    <section class="recipe-ingredient">
-      <label>ingredients:
-        <input [(ngModel)]="recipe.ingredients" placeholder="ingredients">
-      </label>
-    </section>
-
-    <section class="recipe-directions">
-      <label>directions:
-        <input [(ngModel)]="recipe.directions" placeholder="directions">
-      </label>
-    </section>
-
-    <section class="recipe-notes">
-      <label>notes:
-        <input [(ngModel)]="recipe.notes" placeholder="notes">
-      </label>
-    </section>
-
-  </div>
+  <section class="flex-sect">
+    <div class="container-width">
+      <div class="flex-title">
+        <div class="flex-title">{{recipe.name}}</div>
+      </div>
+      <div class="row">
+        <div id="i3p36r" class="cell">
+          <div class="form-group">
+            <label class="label">Name</label>
+            <input [(ngModel)]="recipe.name" placeholder="name">
+          </div>
+          <div class="form-group">
+            <label class="label">Category</label>
+            <input [(ngModel)]="recipe.category" placeholder="category">
+            <select class="select">
+              <option value="">- Select option -</option>
+              <option value="1">Option 1</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="label">Servings</label>
+            <input [(ngModel)]="recipe.servings" placeholder="servings">
+          </div>
+          <div class="form-group">
+            <label class="label">Calories</label>
+            <input [(ngModel)]="recipe.calories" placeholder="calories">
+          </div>
+          <div class="form-group">
+            <label class="label">Prep Time</label>
+            <input [(ngModel)]="recipe.prepTime" placeholder="prepTime">
+          </div>
+          <div class="form-group">
+            <label class="label">Stars</label>
+            <input [(ngModel)]="recipe.stars" placeholder="stars">
+            <select class="select">
+              <option value="">- Select option -</option>
+              <option value="1">Option 1</option>
+            </select>
+          </div>
+        </div>
+        <div id="iqchto" class="cell">
+          <img id="ics2rz" src="{{recipe.photo}}" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell" id="it7cu6">
+          <div id="ikb2kk">
+            <span id="iaf9mf">Ingredients</span>
+          </div>
+          <div class="row">
+            <div class="cell">
+              <input [(ngModel)]="recipe.ingredients" placeholder="ingredients">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell">
+          <div id="i13ub7">
+            <span id="irmm2j">Directions</span>
+          </div>
+          <div class="row">
+            <div class="cell">
+              <input [(ngModel)]="recipe.directions" placeholder="directions">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell">
+          <div id="iipd1s">Notes
+          </div>
+          <div class="row">
+            <div class="cell">
+              <input [(ngModel)]="recipe.notes" placeholder="notes">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-width">
+    </div>
+    <div class="container-width">
+    </div>
+    <div class="container-width">
+    </div>
+    <div class="container-width">
+    </div>
+  </section>
 
 </div>
