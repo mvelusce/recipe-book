@@ -20,7 +20,7 @@ export class AppComponent {
     private importExportService: ImportExportService
     ) {
 
-    translate.setDefaultLang('en');
+    translate.setDefaultLang('it');
     console.log('AppConfig', AppConfig);
 
     if (electronService.isElectron()) {

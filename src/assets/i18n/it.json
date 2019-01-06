@@ -2,7 +2,9 @@
     "PAGES": {
         "HOME": {
             "TITLE": "Libro delle Ricette"
+        },
+        "RECIPE": {
+            "UPLOAD-IMAGE": "Carica nuova foto"
         }
     }
-  }
-  
+}

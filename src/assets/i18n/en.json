@@ -2,6 +2,9 @@
   "PAGES": {
       "HOME": {
           "TITLE": "Recipe Book"
+      },
+      "RECIPE": {
+          "UPLOAD-IMAGE": "Upload new image"
       }
   }
 }

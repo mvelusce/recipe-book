@@ -9,10 +9,8 @@
   <div class="summary-background">
 
     <section class="recipe-photo">
-      <img class="recipe-main-img" src="{{recipe.photo}}">
-      <label>photo:
-        <input [(ngModel)]="recipe.photo" placeholder="photo">
-      </label>
+      <img class="recipe-main-img" src="{{recipe.photo}}" alt="Photo of {{recipe.name}}">
+      <a href="upload-new-image">{{ 'PAGES.RECIPE.UPLOAD-IMAGE' | translate }}</a>
     </section>
 
     <section class="recipe-summary">
